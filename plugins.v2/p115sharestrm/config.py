@@ -58,6 +58,8 @@ class ConfigManager(BaseModel):
         default="mp4,mkv,ts,iso,rmvb,avi,mov,mpeg,mpg,wmv,3gp,asf,m4v,flv,m2ts,tp,f4v",
         description="可识别媒体后缀",
     )
+    video_min_size_filter: bool = Field(default=False, description="过滤小于指定大小的视频文件")
+    video_min_size: int = Field(default=100, ge=0, description="最小视频文件大小(MB)")
     download_subtitle: bool = Field(default=False, description="同步下载分享中的字幕文件")
     user_subtitle_ext: str = Field(
         default="srt,ass,ssa",

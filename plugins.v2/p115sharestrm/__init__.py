@@ -23,7 +23,7 @@ class p115sharestrm(_PluginBase):
     # 插件图标
     plugin_icon = "https://raw.githubusercontent.com/ListeningLTG/MoviePilot-Plugins/refs/heads/main/icons/u115.png"
     # 插件版本
-    plugin_version = "1.1.2"
+    plugin_version = "1.1.3"
     # 插件作者
     plugin_author = "ListeningLTG"
     # 作者主页
@@ -606,6 +606,43 @@ class p115sharestrm(_PluginBase):
                                             },
                                         ],
                                     },
+                                    # ── 第五行：视频体积过滤 ──
+                                    {
+                                        "component": "VRow",
+                                        "content": [
+                                            {
+                                                "component": "VCol",
+                                                "props": {"cols": 12, "md": 4},
+                                                "content": [
+                                                    {
+                                                        "component": "VSwitch",
+                                                        "props": {
+                                                            "model": "video_min_size_filter",
+                                                            "label": "过滤过小视频文件",
+                                                            "hint": "开启后，低于设定体积的视频文件将不生成 STRM（可避免片头宣传片、花絮短片等）",
+                                                            "persistent-hint": True,
+                                                        },
+                                                    }
+                                                ],
+                                            },
+                                            {
+                                                "component": "VCol",
+                                                "props": {"cols": 12, "md": 8},
+                                                "content": [
+                                                    {
+                                                        "component": "VTextField",
+                                                        "props": {
+                                                            "model": "video_min_size",
+                                                            "label": "最小视频大小 (MB)",
+                                                            "type": "number",
+                                                            "hint": "单位为 MB，默认 100。小于该大小的视频文件将被忽略",
+                                                            "persistent-hint": True,
+                                                        },
+                                                    }
+                                                ],
+                                            },
+                                        ],
+                                    },
                                     # ── 说明区 ──
                                     {
                                         "component": "VRow",
@@ -744,6 +781,8 @@ class p115sharestrm(_PluginBase):
             "strm_url_template": "",
             "strm_url_template_custom": "",
             "user_rmt_mediaext": "mp4,mkv,ts,iso,rmvb,avi,mov,mpeg,mpg,wmv,3gp,asf,m4v,flv,m2ts,tp,f4v",
+            "video_min_size_filter": False,
+            "video_min_size": 100,
             "download_subtitle": False,
             "user_subtitle_ext": "srt,ass,ssa",
             "subtitle_audit_poll_timeout_hours": 6,

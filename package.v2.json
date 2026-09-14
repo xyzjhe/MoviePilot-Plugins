@@ -115,11 +115,12 @@
   "p115sharestrm": {
     "name": "分享STRM生成助手",
     "description": "发送/sharestrm 115分享链接 给TG机器人，自动生成分享STRM",
-    "version": "1.1.2",
+    "version": "1.1.3",
     "icon": "https://raw.githubusercontent.com/ListeningLTG/MoviePilot-Plugins/refs/heads/main/icons/u115.png",
     "author": "ListeningLTG",
     "level": 1,
     "history": {
+      "v1.1.3": "添加可配置的过滤小文件视频功能",
       "v1.1.2": "增加一键清空扫描缓存功能",
       "v1.1.1": "优化 Cookie 管理，支持多账号（一行一个，支持 # 注释）及智能提权扫描，免除 115 违规打码与内容隐藏",
       "v1.1.0": "字幕下载模式调整",

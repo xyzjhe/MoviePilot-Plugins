@@ -1918,6 +1918,27 @@ def process_share_strm(
         total_media = len(media_files)
         logger.info(f"【P115ShareStrm】扫描完成，匹配到 {total_media} 个媒体文件")
 
+        filtered_media_count = 0
+        if configer.video_min_size_filter and getattr(configer, "video_min_size", 0) > 0:
+            min_bytes = int(configer.video_min_size) * 1024 * 1024
+            valid_media_files = []
+            for item in media_files:
+                size_bytes = int(item.get("size") or item.get("s") or 0)
+                if size_bytes < min_bytes:
+                    filtered_media_count += 1
+                    logger.info(
+                        f"【P115ShareStrm】体积过滤：跳过 {item.get('name')} "
+                        f"({size_bytes / (1024 * 1024):.2f}MB < {configer.video_min_size}MB)"
+                    )
+                else:
+                    valid_media_files.append(item)
+            if filtered_media_count > 0:
+                logger.info(
+                    f"【P115ShareStrm】体积过滤完成：跳过 {filtered_media_count} 个小于 {configer.video_min_size}MB 的视频，"
+                    f"剩余 {len(valid_media_files)} 个媒体文件"
+                )
+            media_files = valid_media_files
+
         # 2. 第二步：提前识别媒体信息（如有提供 ID）
         mediainfo = None
         collection_parts = []
@@ -2165,6 +2186,7 @@ def process_share_strm(
             "status": True,
             "strm_count": strm_count,
             "total_files": total_media,
+            "filtered_count": filtered_media_count,
             "subtitle_count": subtitle_count,
             "subtitle_fail_count": subtitle_fail_count,
             "subtitle_in_background": subtitle_in_background,
@@ -2686,6 +2708,8 @@ class ShareTaskQueue:
                             f"生成 STRM: {result.get('strm_count')} 个\n"
                             f"遍历文件: {result.get('total_files')} 个"
                         )
+                        if result.get("filtered_count"):
+                            msg += f"\n过滤过小视频: {result.get('filtered_count')} 个"
                         if result.get("subtitle_count") or result.get("subtitle_fail_count"):
                             msg += f"\n下载字幕: {result.get('subtitle_count', 0)} 个"
                             if result.get("subtitle_fail_count"):
